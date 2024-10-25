@@ -1,13 +1,13 @@
 from fastapi import FastAPI
 
-from routers import routers
+from routers import default_router
 from .config import settings
 
 origins: list = ["*"]
 
 
 def init_routers(app_: FastAPI) -> FastAPI:
-    app_.include_router(routers)
+    app_.include_router(default_router)
     return app_
 
 
@@ -16,8 +16,8 @@ def create_app() -> FastAPI:
         title="URL Shortener Backend",
         description="URL Shortener Backend",
         version="0.1.0",
-        docs_url=None if settings.ENVIRONMENT == "production" else "/swagger/docs",
-        redoc_url=None if settings.ENVIRONMENT == "production" else "/swagger/redoc",
+        docs_url=None if settings.ENVIRONMENT == "production" else "/docs",
+        redoc_url=None if settings.ENVIRONMENT == "production" else "/redoc",
     )
     app_ = init_routers(app_=app_)
     return app_
