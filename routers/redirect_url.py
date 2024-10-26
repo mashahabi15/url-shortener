@@ -6,6 +6,7 @@ from starlette.status import HTTP_404_NOT_FOUND
 
 from controllers.redirect.redirect_url import RedirectURLController
 from core.database import SessionDep
+from proxies.redis import redis_proxy
 
 router = APIRouter(
     prefix="",
@@ -24,4 +25,8 @@ async def redirect(
     if not original_url:
         raise HTTPException(status_code=HTTP_404_NOT_FOUND)
 
+    try:
+        redis_proxy.set(name=short_url, value=original_url[0], ex=60 * 60 * 24)
+    except Exception:
+        pass
     return original_url[0]

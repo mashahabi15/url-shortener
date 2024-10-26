@@ -9,6 +9,10 @@ class Settings(BaseSettings):
 
     SENTRY_DSN: str = "https://SENTRY_DSN_URL:PORT"
 
+    REDIS_HOST: str = "http://localhost"
+    REDIS_PORT: int = 6379
+    REDIS_DB: int = 0
+
     class Config:
         env_file = ".env"
 
